@@ -1,0 +1,53 @@
+{
+  "subject": {
+    "id": "chemistry",
+    "name": "Chemistry",
+    "description": "Class 12 NCERT Chemistry",
+    "imageUrl": "/chemistry.jpg",
+    "topics": [
+      {
+        "id": "organic-chemistry",
+        "name": "Organic Chemistry",
+        "chapters": [
+          {
+            "id": "biochemistry",
+            "name": "Biochemistry",
+            "pdfUrl": "/dummy-pdf.pdf",
+            "videoUrls": ["dQw4w9WgXcQ"]
+          },
+          {
+            "id": "hydrocarbons",
+            "name": "Hydrocarbons",
+            "pdfUrl": "/dummy-pdf.pdf",
+            "videoUrls": ["3jfrbJcPc-Y"]
+          }
+        ]
+      },
+      {
+        "id": "physical-chemistry",
+        "name": "Physical Chemistry",
+        "chapters": [
+          {
+            "id": "electrochemistry",
+            "name": "Electrochemistry",
+            "pdfUrl": "/dummy-pdf.pdf",
+            "videoUrls": ["a8LF6SA72T0"]
+          }
+        ]
+      }
+    ]
+  },
+  "questions": {
+    "chapters": {
+      "biochemistry": [
+        {
+          "id": 1,
+          "questionText": "What is the primary function of carbohydrates?",
+          "options": ["Energy storage", "Genetic information", "Cell membrane structure", "Enzyme catalysis"],
+          "correctAnswer": 0,
+          "explanation": "Carbohydrates are the body's main source of energy."
+        }
+      ]
+    }
+  }
+}
