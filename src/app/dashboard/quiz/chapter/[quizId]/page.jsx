@@ -79,7 +79,7 @@ const QuizPage = () => {
 
     if (chapterQuestions && chapterQuestions.length > 0) {
       // Set time limit based on number of questions (5 minutes per question)
-      const timeLimit = chapterQuestions.length * 5 * 60;
+      const timeLimit = chapterQuestions.length * 2.5 * 60;
       setQuizTimeLimit(timeLimit);
       setTimeLeft(timeLimit);
     }
@@ -456,16 +456,18 @@ const QuizPage = () => {
             animate={{
               x: 0,
               opacity: 1,
-              scale: avatarState === 'happy' ? [1, 1.2, 1] : 
-                     avatarState === 'sad' ? [1, 0.9, 1] : 1,
-              y: avatarState === 'happy' ? [0, -20, 0] : 
-                 avatarState === 'sad' ? [0, 10, 0] : 0,
+              scale: avatarState === 'happy' ? [1, 1.2] : 
+                     avatarState === 'sad' ? [1, 0.9] : 1,
+              y: avatarState === 'happy' ? [0, -20] : 
+                 avatarState === 'sad' ? [0, 10] : 0,
             }}
             exit={{ x: 100, opacity: 0 }}
             transition={{ 
               type: "spring", 
               stiffness: 100,
-              duration: 0.5
+              duration: 0.5,
+               repeat:Infinity,
+              repeatType:'reverse'
             }}
             className="relative w-24 h-24 md:w-32 md:h-32 rounded-full bg-white dark:bg-gray-700 shadow-lg flex items-center justify-center overflow-hidden border-4 border-white dark:border-gray-600"
           >
