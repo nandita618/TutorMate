@@ -56,6 +56,11 @@ export const subjectsData = {
 
 // Progress tracking functions (keep the same)
 let progressData = {};
+let userStats = {
+  hearts: 5,
+  totalXP: 0,
+  lastHeartUpdate: Date.now()
+};
 export const markChapterComplete = (subject, topic, chapter) => {
   const key = `${subject}-${topic}-${chapter}`;
   progressData[key] = true;
@@ -105,8 +110,38 @@ export const getChapterVideos = (subjectId, topicId, chapterId) => {
     .find(t => t.id === topicId)?.chapters.find(c => c.id === chapterId);
   return chapter?.videos || [];
 };
-
+export * from './daily-challenge';
 // Helper function to get quiz questions for a chapter
 export const getChapterQuestions = (subjectId, chapterId) => {
   return subjectsData[subjectId]?.questions?.chapters?.[chapterId] || [];
+};
+// User stats functions
+export const getUserStats = () => {
+  // Check heart regeneration (1 heart per hour)
+  const now = Date.now();
+  const hoursSinceLastUpdate = (now - userStats.lastHeartUpdate) / (1000 * 60 * 60);
+  
+  if (userStats.hearts < 5 && hoursSinceLastUpdate >= 1) {
+    const heartsToAdd = Math.floor(hoursSinceLastUpdate);
+    userStats.hearts = Math.min(5, userStats.hearts + heartsToAdd);
+    userStats.lastHeartUpdate = now;
+  }
+  
+  return { ...userStats };
+};
+
+export const loseHeart = () => {
+  userStats.hearts = Math.max(0, userStats.hearts - 1);
+  return userStats.hearts;
+};
+
+export const restoreHearts = () => {
+  userStats.hearts = 5;
+  userStats.lastHeartUpdate = Date.now();
+  return userStats.hearts;
+};
+
+export const addXP = (amount) => {
+  userStats.totalXP += amount;
+  return userStats.totalXP;
 };
