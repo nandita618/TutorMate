@@ -1,9 +1,15 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useSession,signOut } from 'next-auth/react';
+import { useState, useEffect } from 'react';
 
 export default function ProfilePage() {
   const { data: session } = useSession();
+    const [memberSince, setMemberSince] = useState(null);
+     useEffect(() => {
+    // This code only runs on the client, after hydration
+    setMemberSince(new Date().toLocaleDateString());
+  }, []);
 
   return (
     <div className="p-6">
@@ -14,7 +20,7 @@ export default function ProfilePage() {
           <p><strong>Name:</strong> {session?.user?.name}</p>
           <p><strong>Email:</strong> {session?.user?.email}</p>
           <p><strong>Class Level:</strong> Not set yet</p>
-          <p><strong>Member since:</strong> {new Date().toLocaleDateString()}</p>
+          <p><strong>Member since:</strong>  {memberSince}</p>
         </div>
         
         <div className="mt-6">
@@ -30,6 +36,15 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
+         {/* Sign Out Button */}
+            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+              <button
+                 onClick={() => signOut({ callbackUrl: '/' })}
+                className="w-full py-2 px-4 rounded-lg font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors"
+              >
+                Sign Out
+              </button>
+            </div>
       </div>
     </div>
   );
