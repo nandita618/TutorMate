@@ -57,8 +57,10 @@ export default function ChapterPage() {
   // };
 
   const handleTakeQuiz = () => {
-    //console.log('Navigating to quiz for chapter:', chapter);
-  router.push(`/dashboard/quiz/chapter/${chapter}`);
+     //console.log('Navigating to quiz for chapter:', chapter);
+   //router.push(`/dashboard/quiz/chapter/${chapter}`);
+   router.push(`/dashboard/quiz/chapter/${chapter}?subject=${subject}&topic=${topic}`);
+
 };
 
   if (!chapterData) {

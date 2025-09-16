@@ -89,7 +89,7 @@ export default function Home() {
         <section className={`py-20 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className={`text-3xl font-bold text-center mb-16 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-              Why Students Love QuestLearn
+             What we offer
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {features.map((feature, index) => (
