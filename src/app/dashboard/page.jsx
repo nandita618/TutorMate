@@ -1,5 +1,4 @@
-'use client';
-
+"use client"
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -86,6 +85,15 @@ export default function DashboardPage() {
               <FiBook className="inline-block mr-2" />
               Browse Subjects
             </Link>
+            <Link
+            href="/dashboard/daily-challenge"
+            className={`p-4 rounded-lg border-2 border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white transition-colors text-center ${
+              isDarkMode ? 'border-purple-400' : 'border-purple-500'
+            }`}
+          >
+            <FiCalendar className="inline-block mr-2" />
+            Daily Challenge
+          </Link>
             <Link
               href="/dashboard/leaderboard"
               className={`p-4 rounded-lg border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-white transition-colors text-center ${

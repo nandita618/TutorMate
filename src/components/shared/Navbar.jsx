@@ -12,6 +12,7 @@ import {
   FiSun,
   FiMoon
 } from 'react-icons/fi';
+import { PiPathFill } from "react-icons/pi";
 import { useTheme } from '@/contexts/ThemeContext';
 import { signIn, useSession } from 'next-auth/react';
 
@@ -52,6 +53,10 @@ export default function Navbar() {
             <Link href="/dashboard/leaderboard" className="hover:text-blue-400 font-medium flex items-center space-x-1 transition-colors">
               <FiAward size={18} />
               <span>Leaderboard</span>
+            </Link>
+            <Link href="/dashboard/learning-path" className="hover:text-blue-400 font-medium flex items-center space-x-1 transition-colors">
+              <PiPathFill size={18} />
+              <span>Learning Path</span>
             </Link>
             <Link href="/dashboard/profile" className="hover:text-blue-400 font-medium flex items-center space-x-1 transition-colors">
               <FiUser size={18} />
@@ -117,6 +122,10 @@ export default function Navbar() {
               <Link href="/dashboard/leaderboard" className="hover:text-blue-400 font-medium flex items-center space-x-2 transition-colors">
                 <FiAward size={20} />
                 <span>Leaderboard</span>
+              </Link>
+              <Link href="/dashboard/learning-path" className="hover:text-blue-400 font-medium flex items-center space-x-1 transition-colors">
+              <PiPathFill size={18} />
+              <span>Learning Path</span>
               </Link>
               <Link href="/dashboard/profile" className="hover:text-blue-400 font-medium flex items-center space-x-2 transition-colors">
                 <FiUser size={20} />
