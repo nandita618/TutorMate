@@ -20,7 +20,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li><Link href="/" className="opacity-90 hover:text-blue-400 hover:opacity-100 transition-colors flex items-center space-x-2"><FiHome size={16} /><span>Home</span></Link></li>
               <li><Link href="/dashboard/subjects" className="opacity-90 hover:text-blue-400 hover:opacity-100 transition-colors flex items-center space-x-2"><FiBook size={16} /><span>Subjects</span></Link></li>
-              <li><Link href="/dashboard/leaderboard" className="opacity-90 hover:text-blue-400 hover:opacity-100 transition-colors flex items-center space-x-2"><FiAward size={16} /><span>Leaderboard</span></Link></li>
+              {/* <li><Link href="/dashboard/leaderboard" className="opacity-90 hover:text-blue-400 hover:opacity-100 transition-colors flex items-center space-x-2"><FiAward size={16} /><span>Leaderboard</span></Link></li> */}
               <li><Link href="/dashboard/profile" className="opacity-90 hover:text-blue-400 hover:opacity-100 transition-colors flex items-center space-x-2"><FiUser size={16} /><span>Profile</span></Link></li>
             </ul>
           </div>

@@ -50,10 +50,10 @@ export default function Navbar() {
               <FiBook size={18} />
               <span>Subjects</span>
             </Link>
-            <Link href="/dashboard/leaderboard" className="hover:text-blue-400 font-medium flex items-center space-x-1 transition-colors">
+            {/* <Link href="/dashboard/leaderboard" className="hover:text-blue-400 font-medium flex items-center space-x-1 transition-colors">
               <FiAward size={18} />
               <span>Leaderboard</span>
-            </Link>
+            </Link> */}
             <Link href="/dashboard/learning-path" className="hover:text-blue-400 font-medium flex items-center space-x-1 transition-colors">
               <PiPathFill size={18} />
               <span>Learning Path</span>
