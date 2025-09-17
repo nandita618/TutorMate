@@ -1,0 +1,130 @@
+{
+  "subject": {
+    "id": "chemistry",
+    "name": "Chemistry",
+    "description": "Class 12 NCERT Chemistry",
+    "imageUrl": "/chemistry.jpg",
+    "topics": [
+      {
+        "id": "organic-chemistry",
+        "name": "Organic Chemistry",
+        "chapters": [
+          {
+            "id": "biochemistry",
+            "name": "Biochemistry",
+            "pdfUrl": "/dummy-pdf.pdf",
+            "videos": [
+              {
+                "id": "dQw4w9WgXcQ",
+                "title": "Introduction to Biochemistry"
+              },
+              {
+                "id": "S1s2E5J7qUI",
+                "title": "Biomolecules Overview"
+              }
+            ],
+            "articles": [
+              {
+                "title": "NCERT Biochemistry Notes",
+                "url": "https://www.ncert.nic.in/biochemistry"
+              },
+              {
+                "title": "Khan Academy: Biochemistry",
+                "url": "https://www.khanacademy.org/science/biochemistry"
+              }
+            ]
+          },
+          {
+            "id": "hydrocarbons",
+            "name": "Hydrocarbons",
+            "pdfUrl": "/dummy-pdf.pdf",
+            "videos": [
+              {
+                "id": "3jfrbJcPc-Y",
+                "title": "Hydrocarbons Crash Course"
+              }
+            ],
+            "articles": [
+              {
+                "title": "Hydrocarbons Basics",
+                "url": "https://www.chemguide.co.uk/organicprops/menu.html"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "physical-chemistry",
+        "name": "Physical Chemistry",
+        "chapters": [
+          {
+            "id": "electrochemistry",
+            "name": "Electrochemistry",
+            "pdfUrl": "/dummy-pdf.pdf",
+            "videos": [
+              {
+                "id": "a8LF6SA72T0",
+                "title": "Electrochemistry Explained"
+              }
+            ],
+            "articles": [
+              {
+                "title": "Electrochemistry Notes",
+                "url": "https://byjus.com/chemistry/electrochemistry/"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "questions": {
+    "chapters": {
+      "biochemistry": [
+        {
+          "id": 1,
+          "questionText": "What is the primary function of carbohydrates?",
+          "options": [
+            "Energy storage",
+            "Genetic information",
+            "Cell membrane structure",
+            "Enzyme catalysis"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Carbohydrates are the body's main source of energy."
+        }
+      ],
+      "hydrocarbons": [
+        {
+          "id": 2,
+          "questionText": "Which of the following is an alkyne?",
+          "options": [
+            "Methane",
+            "Ethene",
+            "Propyne",
+            "Butane"
+          ],
+          "correctAnswer": 2,
+          "explanation": "Propyne contains a triple bond, hence it is an alkyne."
+        }
+      ]
+    }
+  },
+  "features": [
+    {
+      "id": "summary",
+      "title": "Quick Summary",
+      "description": "Short notes for quick revision of the chapter."
+    },
+    {
+      "id": "flashcards",
+      "title": "Flashcards",
+      "description": "Interactive flashcards to memorize key terms and definitions."
+    },
+    {
+      "id": "related-topics",
+      "title": "Related Topics",
+      "description": "Links to related chapters for better understanding."
+    }
+  ]
+}
