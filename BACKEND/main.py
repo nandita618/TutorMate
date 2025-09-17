@@ -1,8 +1,8 @@
+# backend/main.py
 from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from BACKEND.ai_engine import generate_tutoring_response  # ✅ fixed import
 import logging
+from ai_engine import generate_tutoring_response
 
 # =========================
 # Configure Logging
@@ -13,16 +13,7 @@ logger = logging.getLogger(__name__)
 # =========================
 # FastAPI App
 # =========================
-app = FastAPI(title="AI Tutor API", version="1.0")
-
-# Enable CORS (adjust for production)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # replace "*" with your frontend URL in production
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app = FastAPI(title="AI STEM Tutor API", version="1.0")
 
 # =========================
 # Request Model
@@ -36,12 +27,15 @@ class TutoringRequest(BaseModel):
     language: str
 
 # =========================
-# Routes
+# Root Endpoint
 # =========================
 @app.get("/")
 def root():
-    return {"message": "Welcome to the AI Tutor API"}
+    return {"message": "Welcome to AI STEM Tutor API!"}
 
+# =========================
+# Tutoring Endpoint
+# =========================
 @app.post("/tutoring")
 def tutoring_endpoint(request: TutoringRequest):
     try:
@@ -57,10 +51,3 @@ def tutoring_endpoint(request: TutoringRequest):
     except Exception as e:
         logger.error(f"Error generating tutoring response: {e}")
         raise HTTPException(status_code=500, detail=str(e))
-
-# =========================
-# Run Test Locally
-# =========================
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("BACKEND.main:app", host="0.0.0.0", port=8000, reload=True)
