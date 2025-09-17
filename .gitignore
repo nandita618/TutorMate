@@ -1,16 +1,6 @@
-# Environment
-.env
-ai_env/
-.venv/
-*.env
-
-# Python cache
 __pycache__/
 *.pyc
-
-# Streamlit cache
+ai_env/
+venv/
+.env
 .streamlit/
-
-# IDEs
-.vscode/
-.idea/
