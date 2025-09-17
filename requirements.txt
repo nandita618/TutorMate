@@ -1,28 +1,13 @@
-langchain
-langchain-google-genai
-google-generativeai
-python-dotenv
+# Backend
 fastapi
-uvicorn
-streamlit
+uvicorn[standard]
+pydantic
+python-dotenv
 requests
+groq
 
+# Frontend
+streamlit
 
-
-# Core
-python-dotenv
+# Optional / Utilities
 logging
-
-# FastAPI (backend API)
-fastapi
-uvicorn
-
-# LangChain (framework)
-langchain
-langchain-openai
-
-# OpenAI SDK (used internally by langchain-openai)
-openai
-
-# Optional: If you want Ollama fallback (local free models)
-langchain-community

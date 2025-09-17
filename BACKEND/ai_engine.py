@@ -1,64 +1,83 @@
-from langchain_google_genai import ChatGoogleGenerativeAI 
-from dotenv import load_dotenv
+# backend/ai_agent.py
 import os
 import logging
+from dotenv import load_dotenv
+from groq import Groq
 
 # =========================
-# Configure logging
+# Configure Logging
 # =========================
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # =========================
-# Load environment variables
+# Load Environment Variables
 # =========================
 load_dotenv()
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
-if not GOOGLE_API_KEY:
-    logger.error("GOOGLE_API_KEY not found in environment variables.")
-    raise ValueError("Missing GOOGLE_API_KEY. Please set it in your .env file.")
-
-# =========================
-# LLM Initialization
-# =========================
-def get_llm():
-    model_name = "gemini-2.0-flash"
-    try:
-        logger.info(f"Initializing Gemini model: {model_name}")
-        return ChatGoogleGenerativeAI(
-            model=model_name,
-            temperature=0.7,
-            google_api_key=GOOGLE_API_KEY
-        )
-    except Exception as e:
-        logger.error(f"Error initializing Gemini LLM: {str(e)}")
-        raise Exception(f"Failed to initialize Gemini model: {str(e)}")
+if not GROQ_API_KEY:
+    logger.error("GROQ_API_KEY not found in environment variables.")
+    raise ValueError("Missing GROQ_API_KEY. Please set it in your .env file.")
 
 # =========================
-# Tutoring Prompt
+# Initialize Groq Client
 # =========================
-def _create_tutoring_prompt(subject, level, question, language):
-    prompt = (
-        "You are an intelligent tutoring assistant.\n"
-        "Explain the student's question clearly, step-by-step.\n\n"
-        f"Subject: {subject}\n"
-        f"Level: {level}\n"
-        f"Language: {language}\n"
-        f"Question: {question}\n\n"
-        "Provide a clear, supportive, and educational response."
+client = Groq(api_key=GROQ_API_KEY)
+FREE_MODEL_ID = "llama-3.1-8b-instant"  # Free model
+
+# =========================
+# Prompt Builder
+# =========================
+def _create_tutoring_prompt(subject: str, level: str, question: str,
+                            learning_style: str, background: str, language: str) -> str:
+    return (
+        f"You are an intelligent tutor specializing in {subject} at {level} level.\n"
+        f"Student Background: {background}\n"
+        f"Preferred Learning Style: {learning_style}\n"
+        f"Language: {language}\n\n"
+        f"Student Question: {question}\n\n"
+        "Instructions:\n"
+        "1. Explain concepts clearly and step-by-step.\n"
+        "2. Adapt explanation to student's learning style.\n"
+        "3. Keep it encouraging and easy to understand.\n"
     )
-    return prompt
 
-def generate_tutoring_response(subject, level, question, language):
+# =========================
+# Generate Tutoring Response
+# =========================
+def generate_tutoring_response(subject: str, level: str, question: str,
+                               learning_style: str, background: str, language: str) -> str:
     try:
-        llm = get_llm()
-        message = _create_tutoring_prompt(subject, level, question, language)
-        response = llm.invoke(message)
-        return response.content
+        system_message = "You are a helpful tutoring assistant."
+        user_message = _create_tutoring_prompt(subject, level, question, learning_style, background, language)
+
+        response = client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": user_message}
+            ],
+            model=FREE_MODEL_ID,
+            temperature=0.7
+        )
+
+        return response.choices[0].message.content
+
     except Exception as e:
-        logger.error(f"Error generating tutoring response: {str(e)}")
-        raise Exception(f"Failed to generate tutoring response: {str(e)}")
+        logger.error(f"Error generating tutoring response: {e}")
+        return f"Error: {str(e)}"
+
+# =========================
+# Test Run
+# =========================
+if __name__ == "__main__":
+    reply = generate_tutoring_response(
+        subject="Mathematics",
+        level="Beginner",
+        question="What is the Pythagorean theorem?",
+        learning_style="Visual",
+        background="Knows basic algebra",
+        language="English"
+    )
+    print("\n=== Tutoring Response ===\n")
+    print(reply)

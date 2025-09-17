@@ -1,128 +1,144 @@
+# frontend/app.py
 import streamlit as st
 import requests
-import threading
-import time
 
-# ==============================
-# Start FastAPI backend automatically
-# ==============================
-def start_backend():
-    import main  # This runs uvicorn inside main.py
-
-# Start backend in a separate daemon thread
-backend_thread = threading.Thread(target=start_backend, daemon=True)
-backend_thread.start()
-
-# Give backend a moment to start
-time.sleep(2)
-
-# ==============================
+# =========================
 # Backend URL
-# ==============================
-BASE_URL = "http://127.0.0.1:8000"
+# =========================
+BACKEND_URL = "http://localhost:8000"
 
-st.set_page_config(page_title="AI Tutor", layout="wide")
-st.title("🤖 AI Tutor Platform (STEM)")
-
-# ==============================
-# Language selection
-# ==============================
-languages = [
-    "English", "Hindi", "Bengali", "Tamil", "Telugu",
-    "Kannada", "Marathi", "Gujarati", "Punjabi", "Malayalam", "Urdu",
-    "Odia"  # Added Oriya language
-]
-language = st.selectbox("🌐 Choose Language", languages)
-
-# ==============================
-# STEM Structure
-# ==============================
+# =========================
+# STEM Sections -> Subjects -> Chapters
+# =========================
 STEM_STRUCTURE = {
-    "Science": {
-        "Physics": [
-            "Mechanics", "Thermodynamics", "Waves and Sound",
-            "Light and Optics", "Electricity and Magnetism",
-            "Modern Physics", "Fluid Mechanics"
-        ],
-        "Chemistry": [
-            "Atomic Structure", "Periodic Table", "Chemical Bonding",
-            "Stoichiometry", "Thermochemistry", "Solutions and Mixtures",
-            "Acids, Bases, and Salts", "Organic Chemistry Basics",
-            "Chemical Kinetics", "Electrochemistry"
-        ],
-        "Biology": [
-            "Cell Biology", "Genetics and Evolution", "Human Anatomy and Physiology",
-            "Plant Biology", "Microbiology", "Ecology and Environment",
-            "Biotechnology Basics"
-        ]
+    "S": {  # Science
+        "Physics": ["Mechanics", "Thermodynamics", "Waves and Sound", "Light and Optics", "Electricity and Magnetism", "Modern Physics", "Fluid Mechanics"],
+        "Chemistry": ["Atomic Structure", "Periodic Table", "Chemical Bonding", "Stoichiometry", "Thermochemistry", "Solutions and Mixtures", "Acids, Bases, and Salts", "Organic Chemistry Basics", "Chemical Kinetics", "Electrochemistry"],
+        "Biology": ["Cell Biology", "Genetics and Evolution", "Human Anatomy and Physiology", "Plant Biology", "Microbiology", "Ecology and Environment", "Biotechnology Basics"]
     },
-    "Technology": {
-        "Computer Science / IT": [
-            "Programming Fundamentals", "Data Structures and Algorithms",
-            "Database Management Systems", "Networking Basics",
-            "Cybersecurity Fundamentals", "AI & Machine Learning",
-            "Web Development Basics", "Software Development Life Cycle"
-        ],
-        "Engineering Basics": [
-            "Electrical Circuits", "Mechanical Systems", "Robotics Basics",
-            "Electronics and Sensors", "Control Systems"
-        ]
+    "T": {  # Technology
+        "Computer Science": ["Programming Fundamentals", "Data Structures and Algorithms", "Database Management Systems", "Networking Basics", "Cybersecurity Fundamentals", "AI & Machine Learning", "Web Development Basics", "Software Development Life Cycle"]
     },
-    "Engineering": {
-        "Mechanical Engineering": [
-            "Mechanics of Materials", "Thermodynamics", "Fluid Mechanics",
-            "Manufacturing Processes", "Machine Design"
-        ],
-        "Electrical Engineering": [
-            "Circuit Theory", "Electromagnetics", "Digital Electronics",
-            "Control Systems", "Power Systems"
-        ],
-        "Civil Engineering": [
-            "Structural Analysis", "Surveying", "Construction Materials",
-            "Geotechnical Engineering", "Transportation Engineering"
-        ]
+    "E": {  # Engineering
+        "Mechanical Engineering": ["Mechanics of Materials", "Thermodynamics", "Fluid Mechanics", "Manufacturing Processes", "Machine Design"],
+        "Electrical Engineering": ["Circuit Theory", "Electromagnetics", "Digital Electronics", "Control Systems", "Power Systems"],
+        "Civil Engineering": ["Structural Analysis", "Surveying", "Construction Materials", "Geotechnical Engineering", "Transportation Engineering"]
     },
-    "Mathematics": {
-        "Mathematics": [
-            "Algebra", "Geometry", "Trigonometry", "Calculus",
-            "Probability & Statistics", "Linear Algebra",
-            "Differential Equations", "Number Theory", "Vectors and Matrices"
-        ]
+    "M": {  # Mathematics
+        "Mathematics": ["Algebra", "Geometry", "Trigonometry", "Calculus", "Probability & Statistics", "Linear Algebra", "Differential Equations", "Number Theory", "Vectors and Matrices"]
     }
 }
 
-# ==============================
-# Dropdown Selection
-# ==============================
-st.sidebar.header("📚 Select Your Topic")
+# =========================
+# Languages & Levels
+# =========================
+LANGUAGES = ["English", "Hindi", "Tamil", "Telugu", "Kannada", "Malayalam", "Bengali", "Marathi", "Gujarati",
+             "Odia", "Punjabi", "Assamese", "Maithili", "Santali", "Konkani", "Manipuri", "Urdu", "Dogri"]
 
-subject = st.sidebar.selectbox("Choose Subject", list(STEM_STRUCTURE.keys()))
-sub_subject = st.sidebar.selectbox("Choose Sub-Subject", list(STEM_STRUCTURE[subject].keys()))
-chapter = st.sidebar.selectbox("Choose Chapter", STEM_STRUCTURE[subject][sub_subject])
+LEVELS = ["Beginner", "Intermediate", "Advanced"]
 
-st.markdown(f"### 📘 {subject} → {sub_subject} → {chapter}")
+# =========================
+# Streamlit Page Config
+# =========================
+st.set_page_config(page_title="AI STEM Tutor", page_icon="🧠", layout="wide")
+st.title("🧠 AI STEM Tutor")
+st.markdown("Get multilingual STEM chapter summaries with step-by-step explanations. You can also ask custom questions and download summaries as text files.")
 
-# ==============================
-# Tutoring Section
-# ==============================
-st.subheader("Ask a Question")
-question = st.text_area(
-    "Enter your question here...",
-    key=f"{subject}_{sub_subject}_{chapter}_question"
-)
+# =========================
+# Sidebar: Selection
+# =========================
+with st.sidebar:
+    st.header("Select Options")
+    
+    # STEM Section
+    stem_section = st.selectbox("STEM Section", ["S - Science", "T - Technology", "E - Engineering", "M - Mathematics"])
+    section_key = stem_section.split(" - ")[0]
+    
+    # Subject
+    subjects = list(STEM_STRUCTURE[section_key].keys())
+    subject = st.selectbox("Subject", subjects)
+    
+    # Chapter
+    chapters = STEM_STRUCTURE[section_key][subject]
+    chapter = st.selectbox("Chapter / Topic", chapters)
+    
+    # Level & Language
+    level = st.selectbox("Level", LEVELS)
+    language = st.selectbox("Preferred Language", LANGUAGES)
 
-if st.button("💡 Get AI Help"):
-    if not question.strip():
-        st.warning("Please enter a question to get help.")
-    else:
-        payload = {
-            "subject": f"{subject} - {sub_subject} - {chapter}",
-            "level": "Beginner",
-            "question": question,
-            "language": language
-        }
-        try:
-            res = requests.post(f"{BASE_URL}/tutor", json=payload)
-            st.success(res.json()["answer"])
-        except Exception as e:
-            st.error(f"Error: {e}")
+# =========================
+# Main Area: Tabs
+# =========================
+tabs = st.tabs(["📘 Instructions", "📄 Chapter Summary", "✏️ Ask Your Question"])
+
+with tabs[0]:
+    st.subheader("How to Use")
+    st.markdown("""
+    1. Select **STEM Section → Subject → Chapter** from the sidebar.  
+    2. Choose your **Level** and **Language**.  
+    3. Get a **chapter summary** or ask your **custom question**.  
+    4. You can **download the chapter summary** as a text file.
+    """)
+
+with tabs[1]:
+    if st.button("Generate Chapter Summary"):
+        with st.spinner("Generating chapter summary..."):
+            try:
+                payload = {
+                    "subject": subject,
+                    "level": level,
+                    "question": chapter,  # Chapter summary request
+                    "learning_style": "Text-based",
+                    "background": "",
+                    "language": language
+                }
+
+                response = requests.post(f"{BACKEND_URL}/tutoring", json=payload)
+
+                if response.status_code == 200:
+                    summary_text = response.json().get("response", "")
+                    
+                    with st.expander("📄 Click to view chapter summary", expanded=True):
+                        st.write(summary_text)
+                    
+                    # Download button
+                    st.download_button(
+                        label="💾 Download Chapter Summary",
+                        data=summary_text,
+                        file_name=f"{subject}_{chapter}_summary.txt",
+                        mime="text/plain"
+                    )
+                else:
+                    st.error(f"Error {response.status_code}: {response.text}")
+
+            except Exception as e:
+                st.error(f"An error occurred: {str(e)}")
+
+with tabs[2]:
+    user_question = st.text_area("Type your custom question here:", placeholder="E.g., Explain Pythagoras theorem with an example")
+    if st.button("Ask Tutor About Your Question"):
+        if not user_question.strip():
+            st.warning("Please enter a question!")
+        else:
+            with st.spinner("Generating response for your question..."):
+                try:
+                    payload = {
+                        "subject": subject,
+                        "level": level,
+                        "question": user_question,
+                        "learning_style": "Text-based",
+                        "background": "",
+                        "language": language
+                    }
+
+                    response = requests.post(f"{BACKEND_URL}/tutoring", json=payload)
+
+                    if response.status_code == 200:
+                        tutor_reply = response.json().get("response", "")
+                        with st.expander("📝 Click to view your tutor response", expanded=True):
+                            st.write(f"📝 Tutor Response:\n{tutor_reply}")
+                    else:
+                        st.error(f"Error {response.status_code}: {response.text}")
+
+                except Exception as e:
+                    st.error(f"An error occurred: {str(e)}")
