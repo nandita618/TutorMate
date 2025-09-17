@@ -9,33 +9,48 @@ from dotenv import load_dotenv
 load_dotenv()
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
+# Debug Info - shows current backend URL
+st.sidebar.info(f"🔗 Using Backend URL: {BACKEND_URL}")
+
 # =========================
 # STEM Sections -> Subjects -> Chapters
 # =========================
 STEM_STRUCTURE = {
     "S": {  # Science
-        "Physics": ["Mechanics", "Thermodynamics", "Waves and Sound", "Light and Optics", "Electricity and Magnetism", "Modern Physics", "Fluid Mechanics"],
-        "Chemistry": ["Atomic Structure", "Periodic Table", "Chemical Bonding", "Stoichiometry", "Thermochemistry", "Solutions and Mixtures", "Acids, Bases, and Salts", "Organic Chemistry Basics", "Chemical Kinetics", "Electrochemistry"],
-        "Biology": ["Cell Biology", "Genetics and Evolution", "Human Anatomy and Physiology", "Plant Biology", "Microbiology", "Ecology and Environment", "Biotechnology Basics"]
+        "Physics": ["Mechanics", "Thermodynamics", "Waves and Sound", "Light and Optics",
+                    "Electricity and Magnetism", "Modern Physics", "Fluid Mechanics"],
+        "Chemistry": ["Atomic Structure", "Periodic Table", "Chemical Bonding", "Stoichiometry",
+                      "Thermochemistry", "Solutions and Mixtures", "Acids, Bases, and Salts",
+                      "Organic Chemistry Basics", "Chemical Kinetics", "Electrochemistry"],
+        "Biology": ["Cell Biology", "Genetics and Evolution", "Human Anatomy and Physiology",
+                    "Plant Biology", "Microbiology", "Ecology and Environment", "Biotechnology Basics"]
     },
     "T": {  # Technology
-        "Computer Science": ["Programming Fundamentals", "Data Structures and Algorithms", "Database Management Systems", "Networking Basics", "Cybersecurity Fundamentals", "AI & Machine Learning", "Web Development Basics", "Software Development Life Cycle"]
+        "Computer Science": ["Programming Fundamentals", "Data Structures and Algorithms",
+                             "Database Management Systems", "Networking Basics",
+                             "Cybersecurity Fundamentals", "AI & Machine Learning",
+                             "Web Development Basics", "Software Development Life Cycle"]
     },
     "E": {  # Engineering
-        "Mechanical Engineering": ["Mechanics of Materials", "Thermodynamics", "Fluid Mechanics", "Manufacturing Processes", "Machine Design"],
-        "Electrical Engineering": ["Circuit Theory", "Electromagnetics", "Digital Electronics", "Control Systems", "Power Systems"],
-        "Civil Engineering": ["Structural Analysis", "Surveying", "Construction Materials", "Geotechnical Engineering", "Transportation Engineering"]
+        "Mechanical Engineering": ["Mechanics of Materials", "Thermodynamics", "Fluid Mechanics",
+                                   "Manufacturing Processes", "Machine Design"],
+        "Electrical Engineering": ["Circuit Theory", "Electromagnetics", "Digital Electronics",
+                                   "Control Systems", "Power Systems"],
+        "Civil Engineering": ["Structural Analysis", "Surveying", "Construction Materials",
+                              "Geotechnical Engineering", "Transportation Engineering"]
     },
     "M": {  # Mathematics
-        "Mathematics": ["Algebra", "Geometry", "Trigonometry", "Calculus", "Probability & Statistics", "Linear Algebra", "Differential Equations", "Number Theory", "Vectors and Matrices"]
+        "Mathematics": ["Algebra", "Geometry", "Trigonometry", "Calculus", "Probability & Statistics",
+                        "Linear Algebra", "Differential Equations", "Number Theory", "Vectors and Matrices"]
     }
 }
 
 # =========================
 # Languages & Levels
 # =========================
-LANGUAGES = ["English", "Hindi", "Tamil", "Telugu", "Kannada", "Malayalam", "Bengali", "Marathi", "Gujarati",
-             "Odia", "Punjabi", "Assamese", "Maithili", "Santali", "Konkani", "Manipuri", "Urdu", "Dogri"]
+LANGUAGES = ["English", "Hindi", "Tamil", "Telugu", "Kannada", "Malayalam", "Bengali",
+             "Marathi", "Gujarati", "Odia", "Punjabi", "Assamese", "Maithili",
+             "Santali", "Konkani", "Manipuri", "Urdu", "Dogri"]
 
 LEVELS = ["Beginner", "Intermediate", "Advanced"]
 
@@ -44,7 +59,8 @@ LEVELS = ["Beginner", "Intermediate", "Advanced"]
 # =========================
 st.set_page_config(page_title="AI STEM Tutor", page_icon="🧠", layout="wide")
 st.title("🧠 AI STEM Tutor")
-st.markdown("Get multilingual STEM chapter summaries with step-by-step explanations. You can also ask custom questions and download summaries as text files.")
+st.markdown("Get multilingual STEM chapter summaries with step-by-step explanations. "
+            "You can also ask custom questions and download summaries as text files.")
 
 # =========================
 # Sidebar: Selection
@@ -117,7 +133,8 @@ with tabs[1]:
                 st.error(f"An error occurred: {str(e)}")
 
 with tabs[2]:
-    user_question = st.text_area("Type your custom question here:", placeholder="E.g., Explain Pythagoras theorem with an example")
+    user_question = st.text_area("Type your custom question here:",
+                                 placeholder="E.g., Explain Pythagoras theorem with an example")
     if st.button("Ask Tutor About Your Question"):
         if not user_question.strip():
             st.warning("Please enter a question!")
