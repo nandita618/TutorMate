@@ -1,8 +1,7 @@
-# backend/main.py
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from ai_engine import generate_tutoring_response  # Make sure ai_agent.py is in the same folder
+from BACKEND.ai_engine import generate_tutoring_response  # ✅ fixed import
 import logging
 
 # =========================
@@ -64,4 +63,4 @@ def tutoring_endpoint(request: TutoringRequest):
 # =========================
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("BACKEND.main:app", host="0.0.0.0", port=8000, reload=True)

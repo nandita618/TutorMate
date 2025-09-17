@@ -1,4 +1,3 @@
-# backend/ai_agent.py
 import os
 import logging
 from dotenv import load_dotenv

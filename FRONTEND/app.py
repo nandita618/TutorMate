@@ -1,8 +1,12 @@
-# frontend/app.py
 import streamlit as st
 import requests
-
 import os
+from dotenv import load_dotenv
+
+# =========================
+# Load Environment Variables
+# =========================
+load_dotenv()
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 # =========================
