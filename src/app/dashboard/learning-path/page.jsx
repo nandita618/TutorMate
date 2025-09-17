@@ -6,8 +6,10 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FiBook, FiAward, FiHeart, FiArrowRight, FiHome, FiCheckCircle, FiLock, FiZap } from 'react-icons/fi';
 import { subjectsData, getProgress, getUserStats, isChapterComplete } from '@/data/index';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function LearningPathPage() {
+  const { isDarkMode } = useTheme();
   const [activeSubject, setActiveSubject] = useState('chemistry');
   const [progress, setProgress] = useState({ total: 0, completed: 0, percentage: 0 });
   const [stats, setStats] = useState({ hearts: 5, totalXP: 0, streak: 0 });
@@ -77,19 +79,25 @@ export default function LearningPathPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 p-4">
+    <div className={`min-h-screen p-4 transition-colors duration-300 ${
+    isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+  }`}
+>
+
       <div className="max-w-6xl mx-auto">
         {/* Header - Duolingo style */}
-        <div className="flex items-center justify-between mb-8 p-4 bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700">
+        <div className={`flex items-center justify-between mb-8 p-4 ${
+    isDarkMode ? 'bg-gray-900' : 'bg-gray-50'} rounded-2xl shadow-md border border-gray-200 dark:border-gray-700`}>
           <Link href="/dashboard" className="flex items-center text-green-500 hover:text-green-600 transition-colors font-bold">
             <FiHome className="mr-2" /> Dashboard
           </Link>
           
-          <h1 className="text-3xl font-bold text-center text-gray-900 dark:text-white">Learning Path</h1>
+          <h1 className={`text-3xl font-bold text-center  ${
+    isDarkMode ? 'text-white':'text-gray-900'}`}>Learning Path</h1>
           
           <div className="flex items-center gap-4">
             {/* Hearts */}
-            <div className="flex items-center bg-white dark:bg-gray-700 px-3 py-2 rounded-full border border-gray-200 dark:border-gray-600">
+            {/* <div className="flex items-center bg-white dark:bg-gray-700 px-3 py-2 rounded-full border border-gray-200 dark:border-gray-600">
               {[...Array(5)].map((_, i) => (
                 <div key={i} className="relative -ml-2 first:ml-0">
                   <svg 
@@ -103,7 +111,23 @@ export default function LearningPathPage() {
                   </svg>
                 </div>
               ))}
-            </div>
+            </div> */}
+            <div className="flex items-center bg-white dark:bg-gray-700 px-3 py-2 rounded-full border border-gray-200 dark:border-gray-600">
+                {/* Single heart */}
+                <svg
+                  className={`w-8 h-8 ${hearts > 0 ? 'text-red-500' : 'text-gray-300 dark:text-gray-600'}`}
+                  viewBox="0 0 24 24"
+                  fill={hearts > 0 ? 'currentColor' : 'none'}
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                >
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>
+
+                {/* Number of hearts */}
+                <span className="ml-2 font-semibold text-lg text-gray-800 dark:text-gray-200">{hearts}</span>
+              </div>
+
             
             {/* XP */}
             <div className="flex items-center bg-white dark:bg-gray-700 px-4 py-2 rounded-full border border-gray-200 dark:border-gray-600">
