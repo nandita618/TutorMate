@@ -22,7 +22,11 @@ if not GROQ_API_KEY:
 # =========================
 # Initialize Groq Client
 # =========================
-client = Groq(api_key=GROQ_API_KEY)
+client = Groq(
+    api_key=GROQ_API_KEY,
+    base_url="https://api.groq.com"  # ✅ force correct base URL
+)
+
 FREE_MODEL_ID = "llama-3.1-8b-instant"  # Free model
 
 # =========================
@@ -55,6 +59,8 @@ def generate_tutoring_response(subject: str, level: str, question: str,
         system_message = "You are a helpful tutoring assistant."
         user_message = _create_tutoring_prompt(subject, level, question, learning_style, background, language, length)
 
+        logger.info(f"Sending request to Groq | model={FREE_MODEL_ID} | subject={subject} | level={level}")
+
         response = client.chat.completions.create(
             messages=[
                 {"role": "system", "content": system_message},
@@ -64,14 +70,16 @@ def generate_tutoring_response(subject: str, level: str, question: str,
             temperature=0.7
         )
 
-        return response.choices[0].message.content
+        reply = response.choices[0].message.content
+        logger.info("Successfully received response from Groq")
+        return reply
 
     except Exception as e:
         logger.error(f"Error generating tutoring response: {e}")
         return f"Error: {str(e)}"
 
 # =========================
-# Test Run
+# Test Run (Standalone)
 # =========================
 if __name__ == "__main__":
     reply = generate_tutoring_response(
